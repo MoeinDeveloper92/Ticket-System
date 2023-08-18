@@ -1,10 +1,7 @@
 const asyncHandler = require("express-async-handler")
 const bcrypt = require("bcryptjs")
 const User = require("../models/userModel")
-
-
-
-
+const generateToken = require("../utils/generateToken")
 
 
 //@desc     Register a new User 
@@ -43,7 +40,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
         res.status(201).json({
             _id: user._id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id)
         })
     } else {
         res.status(400)
@@ -79,7 +77,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
         res.status(200).json({
             _id: userExist._id,
             name: userExist.name,
-            email: userExist.email
+            email: userExist.email,
+            token: generateToken(userExist._id)
         })
     } else {
         //user has not benn autjorized
