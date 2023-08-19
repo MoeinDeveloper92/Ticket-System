@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import { FaSignInAlt } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { motion } from "framer-motion"
+import { login } from '../features/auth/authSlice'
+import { useSelector, useDispatch } from "react-redux"
 function Login() {
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
 
+    const dispatch = useDispatch()
     const [formData, setFormData] = useState({
 
         email: "",
@@ -24,8 +28,11 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-
+        const userData = {
+            email,
+            password
+        }
+        dispatch(login(userData))
     }
 
     return (
