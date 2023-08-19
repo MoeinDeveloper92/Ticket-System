@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaUser } from "react-icons/fa"
 import { toast } from "react-toastify"
+import { motion } from "framer-motion"
 function Register() {
 
     const [formData, setFormData] = useState({
@@ -30,7 +31,14 @@ function Register() {
     }
 
     return (
-        <>
+        <motion.div
+            initial={{
+                x: "-100%"
+            }}
+            animate={{
+                x: "0"
+            }}
+        >
             <section className='heading'>
                 <h1>
                     <FaUser />Register
@@ -93,7 +101,7 @@ function Register() {
                     </div>
                 </form>
             </section>
-        </>
+        </motion.div>
     )
 }
 

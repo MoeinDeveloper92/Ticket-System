@@ -1,10 +1,17 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 import { FaQuestionCircle, FaTicketAlt } from "react-icons/fa"
-
+import { motion } from "framer-motion"
 function Home() {
     return (
-        <>
+        <motion.div
+            initial={{
+                x: "-100%"
+            }}
+            animate={{
+                x: "0"
+            }}
+        >
             <section className="heading">
                 <h1>
                     What Do you need help with?
@@ -17,7 +24,7 @@ function Home() {
             <Link to={"/tickets"} className='btn  btn-block'>
                 <FaTicketAlt />View My Ticket!x
             </Link>
-        </>
+        </motion.div>
     )
 }
 

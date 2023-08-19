@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaSignInAlt } from "react-icons/fa"
 import { toast } from "react-toastify"
+import { motion } from "framer-motion"
 function Login() {
 
     const [formData, setFormData] = useState({
@@ -28,7 +29,14 @@ function Login() {
     }
 
     return (
-        <>
+        <motion.div
+            initial={{
+                x: "-100%"
+            }}
+            animate={{
+                x: "0"
+            }}
+        >
             <section className='heading'>
                 <h1>
                     <FaSignInAlt />Login
@@ -70,7 +78,7 @@ function Login() {
                     </div>
                 </form>
             </section>
-        </>
+        </motion.div>
     )
 }
 
