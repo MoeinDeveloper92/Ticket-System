@@ -9,7 +9,6 @@ const colors = require("colors")
 
 
 
-
 const PORT = process.env.PORT || 5000
 connectDB()
 const app = express()
@@ -25,5 +24,6 @@ app.use(express.urlencoded({ extended: true }))
 //erro handler should be beneath the app router 
 app.use("/api/users", userRoutes)
 app.use("/api/tickets", ticketRoutes)
+
 app.use(errorHandler)
 app.listen(PORT, () => console.log(`The server is running on the port ${PORT}`))

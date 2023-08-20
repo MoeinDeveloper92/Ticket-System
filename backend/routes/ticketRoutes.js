@@ -3,6 +3,9 @@ const protect = require("../middleware/authMiddleware")
 const { getTickets, createTicket, getTicket, deleteTicket, updateTicket } = require("../controller/ticketController")
 const router = express.Router()
 
+//Re-write into note router
+const noteRouter = require("../routes/noteRoutes")
+router.use("/:ticketId/notes", noteRouter)
 
 //in order to get your ticket you must be authenticated
 router.route("/").get(protect, getTickets).post(protect, createTicket)
