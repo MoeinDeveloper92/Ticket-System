@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { FaPlus } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTicket, closeTicket } from '../features/tickets/ticketSlice'
 import { getNotes, reset as notesReset } from '../features/notes/noteSlice'
@@ -7,9 +8,29 @@ import Spinner from '../components/Spinner'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import NoteItem from "../components/NoteItem"
+import Modal from "react-modal"
+
+
+const customStyles = {
+    content: {
+        width: "600px",
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%,-50%)",
+        position: "relative"
+    }
+}
+
+
+Modal.setAppElement('#root')
 
 
 function Ticket() {
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [noteText, setNoteText] = useState("")
     const { ticket, isLoading, isSuccess, isError, message } = useSelector((state) => state.ticket)
     const { notes, isLoading: notesIsLoading } = useSelector((state) => state.note)
     const dispatch = useDispatch()
@@ -41,6 +62,21 @@ function Ticket() {
         toast.success("Ticket Closed")
         navigate("/tickets")
     }
+
+    const openModal = () => {
+        setModalIsOpen(true)
+    }
+    const closeModal = () => {
+        setModalIsOpen(false)
+    }
+
+
+    //Create Note Submit
+    const onNoteSubmit = (e) => {
+        e.preventDefault()
+        console.log("Submit")
+        closeModal()
+    }
     return (
         <div className='ticket-page'>
             <header className="ticket-header">
@@ -63,6 +99,27 @@ function Ticket() {
                     <NoteItem key={note._id} note={note} />
                 ))}
             </header>
+            {/* we only want this to show, if is not false */}
+            {ticket.status !== "closed" && (
+                <button className="btn" onClick={openModal}><FaPlus /> AddNote</button>
+            )}
+
+            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel='Add Note'>
+                <h2>
+                    Add Note
+                </h2>
+                <button className='btn-close' onClick={closeModal}>X</button>
+                <form onSubmit={onNoteSubmit} >
+                    <div className="form-group">
+                        <textarea name="noteText" id="noteText" className='form-control' placeholder='Note Text' value={noteText} onChange={(e) => setNoteText(e.target.value)} > </textarea>
+                    </div>
+                    <div className="form-group">
+                        <button type='submit' className='btn'>
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </Modal>
 
             {ticket.status !== 'closed' && (
                 <button className="btn btn-block btn-danger " onClick={onTicketClose}>Close Ticket</button>
